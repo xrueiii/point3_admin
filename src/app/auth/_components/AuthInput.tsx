@@ -18,7 +18,7 @@ function AuthInput({ label, type, value, setValue }: Props) {
         setValue(e.target.value);
       }}
       className="w-full rounded-md lg:text-xl text-sm p-2"
-      placeholder={"請輸入" + label}
+      placeholder={label}
     />
   );
 }

@@ -1,26 +1,45 @@
 "use client";
 
 import { useState } from "react";
-
 import { signIn } from "next-auth/react";
-
-
 import { publicEnv } from "@/lib/env/public";
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { IconButton } from '@mui/material';
 import AuthInput from "./AuthInput";
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
-import Image from "next/image";
 
-function AuthForm() {
+type AuthFormProps = {
+  admin_num: number;
+}
+
+function AuthForm({ admin_num }: AuthFormProps) {
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
+  const [visiblity, setVisibility] = useState(false);
+  const [confirmVisiblity, setConfirmVisibility] = useState(false);
   
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (name === "") {
+      alert("請輸入帳號！");
+      return;
+    }
+
+    if (password.length < 8) {
+      alert("密碼長度至少須為8碼以上！");
+      return;
+    }
+
+    if(isSignUp && confirmPassword != password) {
+      alert("密碼與確認密碼不相符！")
+      return;
+    }
+
     signIn("credentials", {
       name,
       password,
@@ -29,7 +48,7 @@ function AuthForm() {
   };
 
   return (
-    <div className="lg:w-1/3 w-1/2 rounded-md py-8 bg-white">
+    <div className="lg:w-1/3 w-1/2 rounded-lg py-8 bg-white animate-pulse-short">
       <div className="lg:text-3xl text-lg px-10">
         管理者{isSignUp ? "註冊":"登入"}
       </div>
@@ -46,27 +65,53 @@ function AuthForm() {
           />
         </div>
 
-        <div className="flex items-center border border-black px-2 rounded-md w-full">
-          <LockIcon/>
-          <AuthInput
-            label="密碼"
-            type="password"
-            value={password}
-            setValue={setPassword}
-          />
-        </div>
-
-        {isSignUp && (
+        <div className="w-full">
           <div className="flex items-center border border-black px-2 rounded-md w-full">
             <LockIcon/>
             <AuthInput
-              label="確認密碼"
-              type="password"
-              value={confirmPassword}
-              setValue={setConfirmPassword}
+              label="密碼"
+              type={visiblity ? "text":"password"}
+              value={password}
+              setValue={setPassword}
             />
+            {visiblity ?
+                <IconButton onClick={() => setVisibility(false)}>
+                    <VisibilityOffIcon fontSize='large' className='my-auto'/>
+                </IconButton> : 
+                <IconButton onClick={() => setVisibility(true)}>
+                    <VisibilityIcon fontSize='large' className='my-auto'/>
+                </IconButton>}
+          </div>
+          
+          {(password.length < 8 && password.length != 0) &&
+            <p className='text-red-500 mt-2 text-sm text-end w-full'>＊密碼長度至少須為8碼以上</p> 
+          }
+        </div>
+        
+
+        {isSignUp && (
+          <div className="w-full">
+            <div className="flex items-center border border-black px-2 rounded-md w-full">
+              <LockIcon/>
+              <AuthInput
+                label="確認密碼"
+                type={confirmVisiblity ? "text":"password"}
+                value={confirmPassword}
+                setValue={setConfirmPassword}
+              />
+              {confirmVisiblity ?
+                <IconButton onClick={() => setConfirmVisibility(false)}>
+                    <VisibilityOffIcon fontSize='large' className='my-auto'/>
+                </IconButton> : 
+                <IconButton onClick={() => setConfirmVisibility(true)}>
+                    <VisibilityIcon fontSize='large' className='my-auto'/>
+                </IconButton>}
+              </div>
+              {(password !== confirmPassword && confirmPassword.length >= password.length) &&
+              <p className='text-red-500 mt-2 text-sm text-end w-full'>＊確認密碼和所填密碼不符</p> }
             </div>
           )}
+
 
         <div className="text-sm text-gray-500">
           {isSignUp ? (
@@ -79,7 +124,8 @@ function AuthForm() {
                 前往登入
               </a>
             </span>
-          ) : (
+          ) : 
+          ((admin_num < 4) &&
             <span>
               尚未註冊?{"   "}
               <a
@@ -97,7 +143,7 @@ function AuthForm() {
         <button
           data-testid="auth-submit-button"
           type="submit"
-          className="w-1/4 bg-amber-100 rounded-lg py-4 lg:text-xl text-sm hover:bg-gray-300"
+          className="w-1/4 bg-column2 rounded-lg py-4 lg:text-xl text-sm text-white hover:bg-gray-300"
         >
           {isSignUp ? "註冊" : "登入"}
         </button>
