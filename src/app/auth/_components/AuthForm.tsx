@@ -55,7 +55,7 @@ function AuthForm({ admin_num }: AuthFormProps) {
 
       <form onSubmit={handleSubmit} className="flex flex-col mt-16 gap-12 px-10 items-center">
         
-        <div className="flex items-center border border-black px-2 rounded-md w-full">
+        <div className="flex items-center border border-black rounded-md w-full pl-2">
           <PersonIcon/>
           <AuthInput
             label="帳號"

@@ -4,7 +4,7 @@ services:
   postgresql:
     image: postgres
     environment:
-      POSTGRES_DB: point3_admin
+      POSTGRES_DB: point3
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       PGDATA: /var/lib/postgresql/data
