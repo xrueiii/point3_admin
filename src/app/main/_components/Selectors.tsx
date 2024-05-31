@@ -1,25 +1,36 @@
-"use client"
+"use client";
+
 import { useState } from "react";
 import ReservationButton from "./ReservationButton";
 
 export default function Selectors() {
-    const [drumroom, setDrumroom] = useState("");
-    return (
-        <div className="lg:flex space-y-4 px-8 lg:px-32 mt-4 py-8 justify-between w-full">
-            <div className="flex gap-12 justify-between">
-                <select onChange={e => setDrumroom(e.target.value)} className="bg-transparent text-white rounded-lg px-4 py-2 border-2 border-white lg:text-lg text-sm">
-                    <option value={0}>請選擇欲預約的練團室</option>
-                    <option value={1}>鼓房 108</option>
-                    <option value={2}>鼓房 111</option>
-                    <option value={3}>鼓房 115</option>
-                </select>
-                
-                <input className="bg-transparent text-white rounded-lg px-4 py-2 border-2 border-white lg:text-lg text-sm" type="date"/>
-            </div>
-            <div className="flex justify-between w-full lg:ml-12">
-                <button className="bg-column2 px-8 py-2 rounded-md hover:bg-gray-500 text-white lg:text-lg text-sm">送出查詢</button>
-                <ReservationButton/>
-            </div>
+  const [drumroom, setDrumroom] = useState("");
+
+  return (
+    <div className="flex justify-center items-center">
+      <div className="lg:flex flex-col lg:space-y-0 space-y-4 px-4 lg:px-8 py-4 mt-4 justify-between w-3/5">
+        <div className="flex flex-col lg:flex-row gap-6 items-center w-full">
+          <select
+            onChange={(e) => setDrumroom(e.target.value)}
+            className="bg-transparent text-white rounded-lg px-4 py-2 border-2 border-white lg:text-lg text-sm focus:outline-none focus:border-[#FFE900] transition-all duration-300 flex-1 mb-4 lg:mb-0"
+          >
+            <option value="">請選擇欲預約的練團室</option>
+            <option value="108">鼓房 108</option>
+            <option value="111">鼓房 111</option>
+            <option value="115">鼓房 115</option>
+          </select>
+
+          <input
+            className="bg-transparent text-white rounded-lg px-4 py-2 border-2 border-white lg:text-lg text-sm focus:outline-none focus:border-[#FFE900] transition-all duration-300 flex-1 mb-4 lg:mb-0"
+            type="date"
+          />
+
+          <button className="bg-white px-8 py-3 rounded-md font-medium hover:bg-gray-300 text-black lg:text-lg text-sm focus:outline-none transition-all duration-300">
+            送出查詢
+          </button>
+          <ReservationButton />
         </div>
-    );
+      </div>
+    </div>
+  );
 }
