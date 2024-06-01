@@ -1,15 +1,11 @@
 "use client";
 
-import EmailIcon from "@mui/icons-material/Email";
-import PersonIcon from "@mui/icons-material/Person";
-import PhoneIcon from "@mui/icons-material/Phone";
 import {
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import { useRef } from "react";
 
 type ReservationDialogprops = {
   open: boolean;
@@ -17,6 +13,9 @@ type ReservationDialogprops = {
   date: string;
   time: string;
   room: string;
+  name: string;
+  phone: string;
+  email: string;
 };
 export default function ReservationDialog({
   open,
@@ -24,47 +23,25 @@ export default function ReservationDialog({
   date,
   room,
   time,
+  name,
+  phone,
+  email,
 }: ReservationDialogprops) {
-  const NameRef = useRef<HTMLInputElement>(null);
-  const PhoneRef = useRef<HTMLInputElement>(null);
-  const EmailRef = useRef<HTMLInputElement>(null);
+
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle className="text-center text-xl mt-4 font-semibold">
-        預約確認
+        預約資訊
       </DialogTitle>
       <DialogContent>
         <div className="flex-col space-y-8 px-16 py-4 font-normal">
           <p className="text-xl">預約練團室： {room}</p>
           <p className="text-xl">預約日期： {date}</p>
           <p className="text-xl">預約時段：{time}</p>
-          <div className="w-full flex border-black border-2 text-black rounded-md items-center px-2">
-            <PersonIcon />
-            <input
-              type="text"
-              className="w-full rounded-md text-xl p-2 text-black placeholder-gray-500"
-              placeholder="預約人姓名"
-              ref={NameRef}
-            />
-          </div>
-          <div className="w-full flex px-2 border-black border-2 text-black placeholder-gray-30 rounded-md items-center">
-            <PhoneIcon />
-            <input
-              type="text"
-              className="w-full rounded-md overflow-scroll text-xl p-2 text-black placeholder-gray-500"
-              placeholder="預約人電話"
-              ref={PhoneRef}
-            />
-          </div>
-          <div className="w-full flex px-2 border-black border-2 text-black placeholder-gray-30 rounded-md items-center">
-            <EmailIcon />
-            <input
-              type="text"
-              className="w-full rounded-md overflow-scroll text-xl p-2 text-black placeholder-gray-500"
-              placeholder="預約人Email"
-              ref={EmailRef}
-            />
-          </div>
+          <p className="text-xl">預約人姓名： {name}</p>
+          <p className="text-xl">預約人電話： {phone}</p>
+          <p className="text-xl">預約人信箱：{email}</p>
+          
         </div>
       </DialogContent>
       <DialogActions>

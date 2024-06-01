@@ -1,5 +1,6 @@
 import {
   index,
+  integer,
   pgTable,
   serial,
   unique,
@@ -25,15 +26,19 @@ export const ReservationTable = pgTable(
   {
       id: serial("id").primaryKey(),
       displayName: varchar("name").notNull(),
-      email: varchar("email"),
-      Date: varchar("date", {length: 15}).notNull(),
-      span: serial("span"),
-      roomId: varchar("roomId").notNull()
+      email: varchar("email").notNull(),
+      date: varchar("date", {length: 15}).notNull(),
+      span: integer("span").notNull(),
+      phone: varchar("phone").notNull(),
+      roomId: uuid("roomId").notNull().references(() => RoomInfoTable.roomId, {
+          onDelete: "cascade",
+          onUpdate: "cascade",
+        }),
   },
   (table) => ({
       emailIndex: index("email_index").on(table.email),
       roomIndex: index("room_index").on(table.roomId),
-      uniqReservation: unique().on(table.roomId, table.Date, table.span),
+      uniqReservation: unique().on(table.roomId, table.date, table.span),
   })
 );
 
@@ -41,12 +46,12 @@ export const RoomInfoTable = pgTable(
   "RoomInfo",
   {
       id: serial("id").primaryKey(),
-      RoomId: varchar("roomId").notNull(),
+      roomId: uuid("roomId").notNull().defaultRandom().unique(),
       roomName: varchar("roomName").notNull(),
       content: varchar("content").notNull(),
   },
   (table) => ({
-      RoomIdIndex: index("RoomIdIndex").on(table.RoomId)
+      roomIdIndex: index("RoomIdIndex").on(table.roomId)
   })
 
 );
