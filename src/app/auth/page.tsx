@@ -5,7 +5,6 @@ import { publicEnv } from "@/lib/env/public";
 
 import { db } from "@/db";
 import { usersTable } from "@/db/schema";
-import Image from "next/image";
 import AuthForm from "./_components/AuthForm";
 
 export default async function AuthPage() {
@@ -17,14 +16,15 @@ export default async function AuthPage() {
 
   return (
     <>
-      <div className="bg-black justify-center min-h-screen w-screen items-center">
-        <div className="w-full py-4 bg-amber-100 items-center flex px-16 justify-between">
-          <h1 className="font-serif text-2xl lg:text-5xl font-medium ">
-            0.3 練團室後台管理系統
-          </h1>
-          <Image src="/Logo.png" alt="logo_pic" width={100} height={30} />
+      <div className="bg-[#FFE900] justify-center min-h-screen w-screen items-center">
+        <div className="flex justify-center items-center">
+          <div className="bg-white shadow-md w-full max-w-3xl flex justify-center h-14 items-center fixed top-8 z-50 gap-x-10 rounded-full px-4 lg:px-8">
+            <h1 className="text-lg lg:text-2xl font-semibold">
+              0.3 練團室後台管理系統
+            </h1>
+          </div>
         </div>
-        <div className="flex justify-center py-32 w-full">
+        <div className="flex justify-center py-[12.5%] w-full">
           <AuthForm admin_num={admins.length} />
         </div>
       </div>

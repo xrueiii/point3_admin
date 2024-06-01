@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import {z} from "zod"
 
@@ -13,7 +13,7 @@ const RoomInfoSchema = z.object({
 
 type RoomInfoRequest = z.infer<typeof RoomInfoSchema>
 
-export async function POST(request: NextResponse){
+export async function POST(request: NextRequest){
     const data = await request.json();
     try {
         RoomInfoSchema.parse(data);
@@ -58,7 +58,7 @@ const updateRoomInfoSchema = z.object({
 
 type updateRequest = z.infer<typeof updateRoomInfoSchema>
 
-export async function PUT(request: NextResponse){
+export async function PUT(request: NextRequest){
     const data = await request.json();
     try {
         RoomInfoSchema.parse(data);
@@ -110,7 +110,7 @@ const deleteRoomInfoSchema = z.object({
 
 type deleteRoomInfoRequest = z.infer<typeof deleteRoomInfoSchema>
 
-export async function DELETE(request: NextResponse){
+export async function DELETE(request: NextRequest){
     const data = await request.json();
     try {
         deleteRoomInfoSchema.parse(data);

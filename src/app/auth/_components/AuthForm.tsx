@@ -47,8 +47,8 @@ function AuthForm({ admin_num }: AuthFormProps) {
   };
 
   return (
-    <div className="lg:w-1/3 w-1/2 rounded-lg py-8 bg-white animate-pulse-short">
-      <div className="lg:text-3xl text-lg px-10">
+    <div className="lg:w-1/3 w-1/2 rounded-lg py-10 bg-white ">
+      <div className="lg:text-2xl text-lg px-10 font-medium">
         管理者{isSignUp ? "註冊" : "登入"}
       </div>
 
@@ -134,7 +134,7 @@ function AuthForm({ admin_num }: AuthFormProps) {
                 尚未註冊?{"   "}
                 <a
                   data-testid="sign-in-up-button"
-                  className="cursor-pointer hover:underline text-column2"
+                  className="cursor-pointer hover:underline text-black"
                   onClick={() => setIsSignUp(true)}
                 >
                   前往註冊
@@ -147,7 +147,7 @@ function AuthForm({ admin_num }: AuthFormProps) {
         <button
           data-testid="auth-submit-button"
           type="submit"
-          className="w-1/4 bg-column2 rounded-lg py-4 lg:text-xl text-sm text-white hover:bg-gray-300"
+          className="w-1/4 bg-black rounded-lg py-4 lg:text-xl text-sm text-white hover:bg-gray-400"
         >
           {isSignUp ? "註冊" : "登入"}
         </button>
