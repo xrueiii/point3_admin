@@ -1,5 +1,6 @@
 "use client";
 
+import useReservation from "@/hooks/useReservation";
 import {
   Dialog,
   DialogActions,
@@ -13,20 +14,33 @@ type ReservationDialogprops = {
   date: string;
   time: string;
   room: string;
+  roomId: string;
+  span: string;
   name: string;
   phone: string;
   email: string;
+  setValue: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export default function ReservationDialog({
   open,
   onClose,
   date,
   room,
+  roomId,
+  span,
   time,
   name,
   phone,
   email,
+  setValue,
 }: ReservationDialogprops) {
+  const { deleteReservation } = useReservation();
+  const handleDelete = async() => {
+    await deleteReservation(roomId, date, span, email, room, name);
+    alert("預約紀錄成功刪除!請重新送出查詢！");
+    onClose();
+    setValue(false);
+  }
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -52,6 +66,12 @@ export default function ReservationDialog({
               onClick={onClose}
             >
               返回
+            </button>
+            <button
+              className="w-full px-12 py-4 rounded-md font-medium text-white bg-red-800 hover:bg-gray-500"
+              onClick={handleDelete}
+            >
+              刪除
             </button>
           </div>
         </div>

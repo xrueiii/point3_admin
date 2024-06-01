@@ -9,11 +9,13 @@ type ReservationProps = {
   email: string;
   date: string;
   room: string;
+  roomId: string;
   span: string;
   refresh: () => void;
+  setValue: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ReservationInfo({ name, phone, email, date, room, span, refresh}: ReservationProps) {
+export default function ReservationInfo({ name, phone, email, date, room, span, roomId, setValue}: ReservationProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const router = useRouter();
 
@@ -33,10 +35,13 @@ export default function ReservationInfo({ name, phone, email, date, room, span, 
         open={dialogOpen}
         date={date}
         room={room}
+        roomId={roomId}
         time={`${span + 10}:00~${span + 11}:00`}
+        span={span}
         name={name}
         phone={phone}
         email={email}
+        setValue={setValue}
       />
     </div>
   );

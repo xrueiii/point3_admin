@@ -13,9 +13,10 @@ type timeTableProps = {
   room: string;
   reserveTable: roomType[][];
   roomContent: string;
+  setValue: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Timetable({ date, room, reserveTable, roomContent }: timeTableProps) {
+export default function Timetable({ date, room, reserveTable, roomContent, setValue }: timeTableProps) {
   const roomInfo = room.split(",");
   const [dialogOpen, setDialogOpen] = useState(false);
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function Timetable({ date, room, reserveTable, roomContent }: tim
           <p>編輯</p>
         </button>
       </div>
-      <EditDialog open={dialogOpen} onClose={() => setDialogOpen(false)} roomName={roomInfo[1]} roomId={roomInfo[0]} roomContent={roomContent}/>
+      <EditDialog open={dialogOpen} onClose={() => setDialogOpen(false)} roomName={roomInfo[1]} roomId={roomInfo[0]} roomContent={roomContent} setValue={setValue}/>
       <p className="ml-4">練團室名稱：{roomInfo[1]}</p>
       <p className="ml-4">練團室內容：{roomContent}</p>
     </div>
@@ -91,7 +92,7 @@ export default function Timetable({ date, room, reserveTable, roomContent }: tim
         {reserveTable.map((d, dateIndex) => (
           <div className="flex-cols w-1/6 space-y-4">
             {d.map((r, roomIndex) => (
-                r.displayName !== ""  ? <ReservationInfo name={r.displayName} phone={r.phone} email={r.email} date={r.date} span={r.span} room={roomInfo[1]} refresh={() => router.refresh()}/>:<div className="h-[25%] flex justify-center items-center rounded-md w-full bg-[#333] text-white">暫無預約</div>
+                r.displayName !== ""  ? <ReservationInfo name={r.displayName} phone={r.phone} email={r.email} date={r.date} span={r.span} room={roomInfo[1]} roomId={roomInfo[0]} refresh={() => router.refresh()} setValue={setValue}/>:<div className="h-[25%] flex justify-center items-center rounded-md w-full bg-[#333] text-white">暫無預約</div>
             ))}
         </div>))}
     </div>

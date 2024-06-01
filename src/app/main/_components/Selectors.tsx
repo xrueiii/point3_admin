@@ -94,7 +94,7 @@ export default function Selectors({ rooms }: selectorProps) {
         </div>
       </div>
       {isSend && timetableDate && room && <>
-        <Timetable date={timetableDate} room={room} reserveTable={reserveTable} roomContent={content}/>
+        <Timetable date={timetableDate} room={room} reserveTable={reserveTable} roomContent={content} setValue={setIsSend}/>
       </>}
     </div>
   );

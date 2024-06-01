@@ -15,6 +15,7 @@ type EditDialogprops = {
   roomName: string;
   roomId: string;
   roomContent: string;
+  setValue: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export default function EditDialog({
   open,
@@ -22,6 +23,7 @@ export default function EditDialog({
   roomName,
   roomId,
   roomContent,
+  setValue,
 }: EditDialogprops) {
     const [name, setName] = useState<string>(roomName);
     const [content, setContent] = useState<string>(roomContent);
@@ -32,8 +34,9 @@ export default function EditDialog({
         try {
             const success = await updateRoomInfo(roomId, name, content);
             if (success) {
-                alert("編輯成功!");
+                alert("編輯成功!請重新送出查詢！");
                 onClose();
+                setValue(false);
             }
             else {
                 alert("編輯失敗");
