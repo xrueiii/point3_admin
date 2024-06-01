@@ -6,3 +6,9 @@ export type roomType = {
     phone: string;
     roomId: string;
 }
+
+export type roomInfoType = {
+    roomId: string;
+    roomName: string;
+    roomContent: string;
+}

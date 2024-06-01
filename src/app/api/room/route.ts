@@ -5,10 +5,10 @@ import {z} from "zod"
 import { db } from "@/db";
 import { RoomInfoTable } from "@/db/schema";
 import {and, eq} from "drizzle-orm";
+import { roomInfoType } from "@/lib/types";
 
 const RoomInfoSchema = z.object({
-    roomName: z.string(),
-    content: z.string(),
+    roomId: z.string(),
 })
 
 type RoomInfoRequest = z.infer<typeof RoomInfoSchema>
@@ -21,52 +21,39 @@ export async function POST(request: NextResponse){
         return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
 
-    const {roomName, content} = data as RoomInfoRequest;
+    const { roomId } = data as RoomInfoRequest;
 
     try{
 
-        const existingRoom = await db
+        const [roomInfo] = await db
             .select({
-                roomName: RoomInfoTable.roomName
+                roomId: RoomInfoTable.roomId,
+                roomName: RoomInfoTable.roomName,
+                roomContent: RoomInfoTable.content,
             })
             .from(RoomInfoTable)
-            .where(eq(RoomInfoTable.roomName, roomName))
+            .where(eq(RoomInfoTable.roomId, roomId))
             .execute();
 
-        if(existingRoom.length > 0){
-            await db
-                .update(RoomInfoTable)
-                .set({
-                    content: content,
-                    // roomImage: roomImage
-                })
-                .where(eq(RoomInfoTable.roomName, roomName))
-                .execute();
-        }else{
-            await db
-                .insert(RoomInfoTable)
-                .values({
-                    roomName,
-                    content
-                })
-                .execute();
+        if (roomInfo) {
             return NextResponse.json(
-                {message: "Post room info successfully"},
-                // status???
+                { roomInfo: roomInfo },
+                { status: 200 }
             );
         }
+
     }catch(error){
         return NextResponse.json(
-            { error: "Couldn't insert room info"},
+            { error: "Couldn't get room info"},
             { status: 500 }
         );
     }
 }
 
 const updateRoomInfoSchema = z.object({
+    roomId: z.string(),
     roomName: z.string(),
     content: z.string().optional(),
-    roomImage: z.string().optional(),
 });
 
 type updateRequest = z.infer<typeof updateRoomInfoSchema>
@@ -78,30 +65,24 @@ export async function PUT(request: NextResponse){
     } catch (error) {
         return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
-    const {roomName, content, roomImage} = data as updateRequest;
-
-    const updateData: { [key: string]: string | undefined } = {};
-    if (content !== undefined) updateData.content = content;
-    if (roomImage !== undefined) updateData.roomImage = roomImage;
-
-    if (Object.keys(updateData).length === 0) {
-        return NextResponse.json({ error: "No fields to update" }, { status: 400 });
-    }
+    const { roomName, content, roomId } = data as updateRequest;
 
     try {
-        const existingRooms = await db
+        const [existingRooms] = await db
             .select({
-                roomName: RoomInfoTable.roomName
+                
             })
             .from(RoomInfoTable)
-            .where(eq(RoomInfoTable.roomName, roomName))
+            .where(eq(RoomInfoTable.roomId, roomId))
             .execute();
 
-        if (existingRooms.length > 0) {
-            await db
-                .update(RoomInfoTable)
-                .set(updateData)
-                .where(eq(RoomInfoTable.roomName, roomName))
+        if (existingRooms) {
+            await db.update(RoomInfoTable)
+                .set({
+                    roomName: roomName,
+                    content: content,
+                })
+                .where(eq(RoomInfoTable.roomId, roomId))
                 .execute();
 
             return NextResponse.json(
@@ -110,8 +91,8 @@ export async function PUT(request: NextResponse){
             );
         } else {
             return NextResponse.json(
-                { error: "Room not found" },
-                { status: 404 }
+                { message: "Room not found" },
+                { status: 200 }
             );
         }
     } catch (error) {

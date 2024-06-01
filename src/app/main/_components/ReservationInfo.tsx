@@ -3,6 +3,7 @@
 import ClearIcon from "@mui/icons-material/Clear";
 import ReservationDialog from "./ReservationDialog";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 type ReservationProps = {
   name: string;
   phone: string;
@@ -10,10 +11,12 @@ type ReservationProps = {
   date: string;
   room: string;
   span: string;
+  refresh: () => void;
 }
 
-export default function ReservationInfo({ name, phone, email, date, room, span}: ReservationProps) {
+export default function ReservationInfo({ name, phone, email, date, room, span, refresh}: ReservationProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const router = useRouter();
 
   return (
       <div className="w-full h-[25%]">
@@ -28,7 +31,7 @@ export default function ReservationInfo({ name, phone, email, date, room, span}:
           <p>信箱：</p>
           <p className="break-all">{email}</p>
         </button>
-        <ReservationDialog onClose={() => setDialogOpen(false)} open={dialogOpen} date={date} room={room} time={`${span+10}:00~${span+11}:00`} name={name} phone={phone} email={email}/>
+        <ReservationDialog onClose={() => {refresh(); setDialogOpen(false);}} open={dialogOpen} date={date} room={room} time={`${span+10}:00~${span+11}:00`} name={name} phone={phone} email={email}/>
         
         {/* <button className="absolute top-0 right-0 -mt-2 -mr-2 bg-red-300 rounded-full p-1 hover:bg-red-500 w-6 h-6 flex items-center justify-center">
           <ClearIcon />
