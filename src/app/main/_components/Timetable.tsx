@@ -36,7 +36,7 @@ export default function Timetable({ date, room, reserveTable, roomContent }: tim
       <p className="ml-4">練團室內容：{roomContent}</p>
     </div>
     <div className="lg:w-3/4 w-full flex gap-4 px-8 lg:px-32 py-2 mx-auto h-20">
-        <div className="w-1/6 flex items-center justify-center rounded-md text-[#FFE900] font-semibold text-center lg:text-xl sm:text-base">
+        <div className="w-1/6 flex items-center justify-center rounded-md text-[#FFE900] font-semibold text-center lg:text-lg sm:text-base">
           {roomInfo[1]}
         </div>
         {date.map((d) => (

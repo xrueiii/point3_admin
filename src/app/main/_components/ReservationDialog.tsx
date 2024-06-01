@@ -51,10 +51,7 @@ export default function ReservationDialog({
               className="w-full px-12 py-4 rounded-md font-medium text-white bg-gray-300 hover:bg-gray-500"
               onClick={onClose}
             >
-              取消
-            </button>
-            <button className="w-full py-4 px-12 rounded-md font-medium text-black bg-[#FFE900] hover:bg-yellow-400">
-              確認
+              返回
             </button>
           </div>
         </div>
