@@ -15,14 +15,15 @@ type selectorProps = {
 export default function Selectors({ rooms }: selectorProps) {
   const [room, setRoom] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const [date, setDate] = useState<string>();
+  const today = new Date().toISOString().substring(0,10);
+  const [date, setDate] = useState<string>(today);
   const [timetableDate, setTimeTableDate] = useState<string[]>();
   const [reserveTable, setReserveTable] = useState<roomType[][]>([]);
-
   const [isSend, setIsSend] = useState(false);
   
   const { getReservedRooms } = useReservation();
   const { getRoomInfo } = useRoom();
+  
 
   const handleFindReserved = async(e: React.MouseEvent<HTMLButtonElement>) =>{
     e.preventDefault()
@@ -81,6 +82,7 @@ export default function Selectors({ rooms }: selectorProps) {
               className="bg-transparent text-white rounded-lg px-4 py-2 border-2 border-white lg:text-lg text-sm focus:outline-none focus:border-[#FFE900] transition-all duration-300 flex-1 mb-4 lg:mb-0"
               type="date"
               value={date}
+              defaultValue={today}
               onChange={(e) => {setDate(e.target.value); setIsSend(false);}}
             />
 
